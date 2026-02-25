@@ -4,6 +4,7 @@ import { CreateOrderHandler } from './application/commands/create-order.handler'
 import { DynamoOrderRepository } from './infrastructure/repositories/dynamo-order.repository';
 import { OrderController } from './infrastructure/controllers/order.controller';
 import { OrderCreatedHandler } from './application/events/order-created.handler';
+import { SnsEventPublisher } from './infrastructure/messaging/sns-event-publisher';
 
 @Module({
   imports: [CqrsModule],
@@ -11,6 +12,7 @@ import { OrderCreatedHandler } from './application/events/order-created.handler'
   providers: [
     CreateOrderHandler,
     OrderCreatedHandler,
+    SnsEventPublisher,
     {
       provide: 'IOrderRepository',
       useClass: DynamoOrderRepository,
