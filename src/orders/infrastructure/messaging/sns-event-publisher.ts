@@ -1,13 +1,18 @@
 import { PublishCommand, SNSClient } from '@aws-sdk/client-sns';
 import { Injectable } from '@nestjs/common';
 import { OrderCreatedEvent } from 'src/orders/domain/events/order-created.event';
+import * as dotenv from 'dotenv';
 
+dotenv.config();
 @Injectable()
 export class SnsEventPublisher {
   private readonly snsClient: SNSClient;
 
   constructor() {
-    this.snsClient = new SNSClient({ region: process.env.ORDER_SNS_REGION });
+    const region = process.env.ORDER_SNS_REGION || 'us-east-1';
+    this.snsClient = new SNSClient({
+      region,
+    });
   }
 
   async publish(event: OrderCreatedEvent) {
@@ -21,9 +26,9 @@ export class SnsEventPublisher {
 
     try {
       await this.snsClient.send(command);
-      console.log('Evend successfully sent to SNS!');
+      console.log('✅ Evend successfully sent to SNS!');
     } catch (error) {
-      console.log('Error in send to SNS!', error);
+      console.log('❌ Error in send to SNS!', error);
     }
   }
 }
