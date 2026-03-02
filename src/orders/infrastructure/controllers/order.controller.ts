@@ -1,13 +1,15 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { CreateOrderCommand } from 'src/orders/application/commands/create-order.command';
 import { OrderItem } from 'src/orders/domain/entities/order.entity';
+import { ApiKeyGuard } from '../guards/api-key.guard';
 
 class CreateOrderDto {
   customerId: string;
   items: OrderItem[];
 }
 
+@UseGuards(ApiKeyGuard)
 @Controller('orders')
 export class OrderController {
   constructor(private readonly commandBus: CommandBus) {}
