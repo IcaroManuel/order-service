@@ -6,7 +6,7 @@ import {
 } from '@aws-sdk/lib-dynamodb';
 import { Injectable } from '@nestjs/common';
 import { IOrderRepository } from 'src/orders/domain/order-repository.interface';
-import { Order, OrderItem } from 'src/orders/domain/order.entity';
+import { Order, OrderItem } from 'src/orders/domain/entities/order.entity';
 
 @Injectable()
 export class DynamoOrderRepository implements IOrderRepository {

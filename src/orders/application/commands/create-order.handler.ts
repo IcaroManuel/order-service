@@ -2,7 +2,7 @@ import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { CreateOrderCommand } from './create-order.command';
 import { Inject, Logger } from '@nestjs/common';
 import type { IOrderRepository } from 'src/orders/domain/order-repository.interface';
-import { Order } from 'src/orders/domain/order.entity';
+import { Order } from 'src/orders/domain/entities/order.entity';
 import { OrderCreatedEvent } from 'src/orders/domain/events/order-created.event';
 
 @CommandHandler(CreateOrderCommand)

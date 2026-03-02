@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { CreateOrderCommand } from 'src/orders/application/commands/create-order.command';
-import { OrderItem } from 'src/orders/domain/order.entity';
+import { OrderItem } from 'src/orders/domain/entities/order.entity';
 
 class CreateOrderDto {
   customerId: string;

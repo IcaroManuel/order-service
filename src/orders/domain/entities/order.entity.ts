@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 export interface OrderItem {
   sku: string;
@@ -7,13 +7,20 @@ export interface OrderItem {
   quantity: number;
 }
 export class Order {
+  public readonly totalPrice: number;
+
   constructor(
     public readonly id: string,
     public readonly customerId: string,
     public readonly items: OrderItem[],
     public readonly status: 'PENDING' | 'PAID' | 'CANCELLED',
     public readonly createdAt: Date,
-  ) {}
+  ) {
+    this.totalPrice = this.calculateTotal();
+    if (this.totalPrice < 0) {
+      throw new Error('Total price cannot be negative');
+    }
+  }
 
   public calculateTotal(): number {
     return this.items.reduce(
@@ -24,12 +31,6 @@ export class Order {
 
   static create(customerId: string, items: OrderItem[]): Order {
     if (items.length === 0) throw new Error('A order require items');
-    return new Order(
-      (uuidv4 as () => string)(),
-      customerId,
-      items,
-      'PENDING',
-      new Date(),
-    );
+    return new Order(randomUUID(), customerId, items, 'PENDING', new Date());
   }
 }
